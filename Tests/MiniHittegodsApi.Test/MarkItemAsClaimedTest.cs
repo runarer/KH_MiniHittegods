@@ -4,17 +4,17 @@ namespace MiniHittegodsApi.Test;
 
 public class MarkItemAsClaimedTest
 {
-    [Fact]
+    [Fact(Skip = "Test not implemented")]
     public void ClaimItem_MarkItemAsClaimedItemIsAvailableAndClaimedByGotAValue_Return200WithUpdatedItemAndStatusSetToClaimed()
     {
 
     }
-    [Fact]
+    [Fact(Skip = "Test not implemented")]
     public void ClaimItem_MarkItemAsClaimedIdOfItemNotAvailable_Return404AndErroMessage()
     {
 
     }
-    [Fact]
+    [Fact(Skip = "Test not implemented")]
     public void ClaimItem_MarkItemAsClaimedItemIsNotAvailable_Return409AndErrorMessage()
     {
 

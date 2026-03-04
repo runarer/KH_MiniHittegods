@@ -4,7 +4,7 @@ namespace MiniHittegodsApi.Test;
 
 public class ListFoundItemsTests
 {
-    [Fact]
+    [Fact(Skip = "Test not implemented")]
     public void ListItems_ListAllItems_Returns200WithListOfAllItems()
     {
 

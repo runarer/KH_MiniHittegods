@@ -4,19 +4,19 @@ namespace MiniHittegodsApi.Test;
 
 public class MarkItemAsReturnedToOwnerTest
 {
-    [Fact]
+    [Fact(Skip = "Test not implemented")]
     public void ReturnItem_MarkItemAsReturnedItemExcistsAndGotStatusAsClaimed_Return200WithItemAndSetStatusToReturnedAndTimeItWasClaimed()
     {
 
     }
 
-    [Fact]
+    [Fact(Skip = "Test not implemented")]
     public void ReturnItem_MarkItemAsReturnedItemDoedntExcists_Return404AndErrorMessage()
     {
 
     }
 
-    [Fact]
+    [Fact(Skip = "Test not implemented")]
     public void ReturnItem_MarkItemAsReturnedItemExcistsButDoNotGotStatusAsClaimed_Return409AndErrorMessage()
     {
 
