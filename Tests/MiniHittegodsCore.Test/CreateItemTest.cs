@@ -1,31 +1,40 @@
 
 
 using Microsoft.Extensions.Time.Testing;
+using MiniHittegodsCore.Interfaces;
 using MiniHittegodsCore.Model;
+using MiniHittegodsCore.Model.DTO;
+using MiniHittegodsCore.Services;
 
 namespace MiniHittegodsCore.Test;
 
 public class MiniHittegodsCoreTest
 {
     [Fact]
-    public void AddFoundItem_CreateAnItemWithValidParameters_ItemCreatedStatusIsSetToAvailableAndTimeIsSet()
+    public async Task AddFoundItem_CreateAnItemWithValidParameters_ItemCreatedStatusIsSetToAvailableAndTimeIsSet()
     {
         var frozenTime = DateTime.UtcNow;
         var clock = new FakeTimeProvider(frozenTime);
+        var repository = new InMemoryRepository();
 
-        var foundItemService = new FoundItemService(, clock);
+        var foundItemService = new FoundItemService(repository, clock);
         var title = "Test title";
         var description = "Test description";
         var category = Category.Other;
         var foundLocation = "Attic near crepy doll.";
-        var foundItemDTO = new CreateFoundItemDTO { };
-
-        var foundItem = foundItemService.AddFoundItem(foundItemDTO);
+        var foundItemDTO = new CreateFoundItemDTO
+        {
+            Title = title,
+            Category = category,
+            Description = description,
+            FoundLocation = foundLocation
+        };
+        var foundItem = await foundItemService.AddFoundItem(foundItemDTO);
 
         Assert.NotNull(foundItem);
         Assert.NotEqual(Guid.Empty, foundItem.Id);
         Assert.Equal(Status.Available, foundItem.Status);
-        Assert.Equal(frozenTime, foundItem.FoundAt);
+        Assert.Equal(frozenTime, foundItem.FoundAtUtc);
         Assert.Equal(title, foundItem.Title);
         Assert.Equal(description, foundItem.Description);
         Assert.Equal(Category.Other, foundItem.Category);
@@ -84,5 +93,33 @@ public class MiniHittegodsCoreTest
     public void DeleteItem_DeleteAnItemWithStatusReturned_ItemUnchangedAndThrowException()
     {
 
+    }
+
+    private class InMemoryRepository : IFoundItemRepository
+    {
+        public Task AddFoundItemAsync(FoundItem foundItem)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteFoundItemAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<FoundItem>> GetAllFoundItemsAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<FoundItem> GetFoundItemAsync(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateFoundItem(FoundItem foundItem)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
