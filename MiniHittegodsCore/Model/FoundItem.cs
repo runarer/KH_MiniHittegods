@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MiniHittegodsCore.Model;
 
-public class Item
+public class FoundItem
 {
     [Key]
     public required Guid Id { get; init; } = Guid.NewGuid();
@@ -13,13 +13,18 @@ public class Item
     public required string Title { get; init; }
     public Category Category { get; init; }
     public string? Description { get; init; }
+
+    [Required(ErrorMessage = "Item need a location of where it was found.")]
     public required string FoundLocation { get; init; }
 
-    public Status Status { get; private set; } = Status.Available;
+    public DateTime FoundAtUtc { get; init; }
 
-    public string? ClaimedBy { get; private set; }
 
-    public DateTime ClaimedAtUtc { get; private set; }
-    public DateTime ReturnedAtUtc { get; private set; }
+    public Status Status { get; set; } = Status.Available;
+
+    public string? ClaimedBy { get; set; }
+
+    public DateTime ClaimedAtUtc { get; set; }
+    public DateTime ReturnedAtUtc { get; set; }
 
 }
