@@ -1,4 +1,5 @@
 <Solution>
+  <Folder Name="/Service/" />
   <Folder Name="/Tests/">
     <Project Path="Tests/MiniHittegodsApi.Test/MiniHittegodsApi.Test.csproj" />
     <Project Path="Tests/MiniHittegodsCore.Test/MiniHittegodsCore.Test.csproj" />
