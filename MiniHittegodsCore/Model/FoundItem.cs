@@ -17,14 +17,14 @@ public class FoundItem
     [Required(ErrorMessage = "Item need a location of where it was found.")]
     public required string FoundLocation { get; init; }
 
-    public DateTime FoundAtUtc { get; init; }
+    public DateTimeOffset FoundAtUtc { get; init; }
 
 
     public Status Status { get; set; } = Status.Available;
 
     public string? ClaimedBy { get; set; }
 
-    public DateTime ClaimedAtUtc { get; set; }
-    public DateTime ReturnedAtUtc { get; set; }
+    public DateTimeOffset ClaimedAtUtc { get; set; }
+    public DateTimeOffset ReturnedAtUtc { get; set; }
 
 }
