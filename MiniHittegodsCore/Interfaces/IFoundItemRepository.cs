@@ -13,4 +13,6 @@ public interface IFoundItemRepository
     Task<List<FoundItem>> GetAllFoundItemsAsync();
 
     Task UpdateFoundItem(FoundItem foundItem);
+
+    Task Save();
 }
