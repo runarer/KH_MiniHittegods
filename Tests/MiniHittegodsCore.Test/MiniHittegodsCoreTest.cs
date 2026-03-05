@@ -84,9 +84,11 @@ public class MiniHittegodsCoreTest
         var repository = new InMemoryRepository();
         var foundItemService = new FoundItemService(repository, clock);
         var foundItem = await AddAFoundItem(foundItemService);
-        _ = foundItemService.Claim(foundItem.Id, "First Claimer");
+        var (firstResult, firstClaimedItem) = await foundItemService.Claim(foundItem.Id, "First Claimer");
 
-        Assert.Equal(Status.Claimed, foundItem.Status);
+        Assert.Equal(FoundItemResultType.Ok, firstResult);
+        Assert.NotNull(firstClaimedItem);
+        Assert.Equal(Status.Claimed, firstClaimedItem.Status);
 
         var (result, claimedItemDTO) = await foundItemService.Claim(foundItem.Id, claimedBy);
 
@@ -103,9 +105,11 @@ public class MiniHittegodsCoreTest
         var foundItemService = new FoundItemService(repository, clock);
         var foundItem = await AddAFoundItem(foundItemService);
         _ = foundItemService.Claim(foundItem.Id, "First Claimer");
-        _ = foundItemService.Return(foundItem.Id);
+        var (firstReturnResult, firstReturnItem) = await foundItemService.Return(foundItem.Id);
 
-        Assert.Equal(Status.Returned, foundItem.Status);
+        Assert.Equal(FoundItemResultType.Ok, firstReturnResult);
+        Assert.NotNull(firstReturnItem);
+        Assert.Equal(Status.Returned, firstReturnItem.Status);
 
         var (result, claimedItemDTO) = await foundItemService.Claim(foundItem.Id, claimedBy);
 
@@ -117,14 +121,15 @@ public class MiniHittegodsCoreTest
     public async Task ReturnItem_ReturnAnItemWithStatusClaimed_ItemStatusIsSetToReturnedAndReturnTimeIsSetToNowUTC()
     {
         var frozenTime = DateTime.UtcNow;
-        var claimedBy = "Test Claimer";
         var clock = new FakeTimeProvider(frozenTime);
         var repository = new InMemoryRepository();
         var foundItemService = new FoundItemService(repository, clock);
         var foundItem = await AddAFoundItem(foundItemService);
-        _ = foundItemService.Claim(foundItem.Id, claimedBy);
+        var (firstResult, firstClaimedItem) = await foundItemService.Claim(foundItem.Id, "First Claimer");
 
-        Assert.Equal(Status.Claimed, foundItem.Status);
+        Assert.Equal(FoundItemResultType.Ok, firstResult);
+        Assert.NotNull(firstClaimedItem);
+        Assert.Equal(Status.Claimed, firstClaimedItem.Status);
 
         var (result, returnedItem) = await foundItemService.Return(foundItem.Id);
 
@@ -155,14 +160,16 @@ public class MiniHittegodsCoreTest
     public async Task ReturnItem_ReturnAnItemWithStatusReturned_ItemUnchangedAndConflictResultReturned()
     {
         var frozenTime = DateTime.UtcNow;
-        var claimedBy = "Test Claimer";
         var clock = new FakeTimeProvider(frozenTime);
         var repository = new InMemoryRepository();
         var foundItemService = new FoundItemService(repository, clock);
         var foundItem = await AddAFoundItem(foundItemService);
-        _ = foundItemService.Claim(foundItem.Id, claimedBy);
-        _ = foundItemService.Return(foundItem.Id);
-        Assert.Equal(Status.Returned, foundItem.Status);
+        _ = foundItemService.Claim(foundItem.Id, "First Claimer");
+        var (firstReturnResult, firstReturnItem) = await foundItemService.Return(foundItem.Id);
+
+        Assert.Equal(FoundItemResultType.Ok, firstReturnResult);
+        Assert.NotNull(firstReturnItem);
+        Assert.Equal(Status.Returned, firstReturnItem.Status);
 
         var (result, returnedItem) = await foundItemService.Return(foundItem.Id);
 
@@ -247,29 +254,31 @@ public class MiniHittegodsCoreTest
     }
     private class InMemoryRepository : IFoundItemRepository
     {
-        public Task AddFoundItemAsync(FoundItem foundItem)
+        private Dictionary<Guid, FoundItem> _storage = [];
+        public async Task AddFoundItemAsync(FoundItem foundItem)
         {
-            throw new NotImplementedException();
+            _storage[foundItem.Id] = foundItem;
         }
 
-        public Task DeleteFoundItemAsync(Guid id)
+        public async Task DeleteFoundItemAsync(Guid id)
         {
-            throw new NotImplementedException();
+            _storage.Remove(id);
         }
 
-        public Task<List<FoundItem>> GetAllFoundItemsAsync()
+        public async Task<List<FoundItem>> GetAllFoundItemsAsync()
         {
-            throw new NotImplementedException();
+            return [.. _storage.Values];
         }
 
-        public Task<FoundItem> GetFoundItemAsync(Guid id)
+        public async Task<FoundItem> GetFoundItemAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return _storage[id];
         }
 
-        public Task UpdateFoundItem(FoundItem foundItem)
+        public async Task UpdateFoundItem(FoundItem foundItem)
         {
             throw new NotImplementedException();
         }
+        public async Task Save() { }
     }
 }
