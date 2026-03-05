@@ -27,6 +27,8 @@ public class FoundItemService(IFoundItemRepository foundItemsRepository, TimePro
             Category = foundItemDTO.Category,
         };
 
+        await _foundItemsRepository.AddFoundItemAsync(foundItem);
+
         return new FoundItemResult(FoundItemResultType.Ok, new FoundItemDTO
         {
             Id = foundItem.Id,
@@ -41,28 +43,83 @@ public class FoundItemService(IFoundItemRepository foundItemsRepository, TimePro
 
     public async Task<FoundItemResult> Delete(Guid id)
     {
+        var toDelete = await _foundItemsRepository.GetFoundItemAsync(id);
+        if (toDelete is null)
+            return new(FoundItemResultType.NotFound, null);
+
+        if (toDelete.Status != Status.Available)
+            return new(FoundItemResultType.Conflict, null);
+
+        await _foundItemsRepository.DeleteFoundItemAsync(id);
         return new(FoundItemResultType.Ok, null);
     }
 
     public async Task<FoundItemResult> Claim(Guid id, string claimedBy)
     {
-        return new(FoundItemResultType.Ok, null);
+        var toClaim = await _foundItemsRepository.GetFoundItemAsync(id);
+
+        if (toClaim is null)
+            return new(FoundItemResultType.NotFound, null);
+
+        if (toClaim.Status != Status.Available)
+            return new(FoundItemResultType.Conflict, null);
+
+        toClaim.Status = Status.Claimed;
+        toClaim.ClaimedBy = claimedBy;
+        toClaim.ClaimedAtUtc = _clock.GetUtcNow();
+
+        await _foundItemsRepository.Save();
+
+        return new(FoundItemResultType.Ok, FromModelToDTO(toClaim));
     }
-    public async Task<FoundItemResult> Return(Guid id, string claimedBy)
+    public async Task<FoundItemResult> Return(Guid id)
     {
-        return new(FoundItemResultType.Ok, null);
+        var toReturn = await _foundItemsRepository.GetFoundItemAsync(id);
+
+        if (toReturn is null)
+            return new(FoundItemResultType.NotFound, null);
+
+        if (toReturn.Status != Status.Claimed)
+            return new(FoundItemResultType.Conflict, null);
+
+        toReturn.Status = Status.Returned;
+        toReturn.ReturnedAtUtc = _clock.GetUtcNow();
+
+        await _foundItemsRepository.Save();
+
+        return new(FoundItemResultType.Ok, FromModelToDTO(toReturn));
     }
 
     public async Task<FoundItemResult> Get(Guid id)
     {
-        return new(FoundItemResultType.Ok, null);
+        var toGet = await _foundItemsRepository.GetFoundItemAsync(id);
+
+        if (toGet is null)
+            return new(FoundItemResultType.NotFound, null);
+
+        return new(FoundItemResultType.Ok, FromModelToDTO(toGet));
     }
 
     public async Task<List<FoundItemDTO>> GetAll()
     {
-        return [];
+        var all = await _foundItemsRepository.GetAllFoundItemsAsync();
+
+        return [.. all.Select(FromModelToDTO)];
     }
 
+    private FoundItemDTO FromModelToDTO(FoundItem item) => new()
+    {
+        Id = item.Id,
+        Title = item.Title,
+        Category = item.Category,
+        Description = item.Description,
+        FoundLocation = item.FoundLocation,
+        FoundAtUtc = item.FoundAtUtc,
+        Status = item.Status,
+        ClaimedBy = item.ClaimedBy,
+        ClaimedAtUtc = item.ClaimedAtUtc,
+        ReturnedAtUtc = item.ReturnedAtUtc,
+    };
 }
 
 public record FoundItemResult(FoundItemResultType Type, FoundItemDTO? FoundItemDTO);
