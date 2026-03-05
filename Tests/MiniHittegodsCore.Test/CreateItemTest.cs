@@ -40,10 +40,27 @@ public class MiniHittegodsCoreTest
         Assert.Equal(Category.Other, foundItem.Category);
     }
 
-    [Fact(Skip = "Test not implemented")]
-    public void CreateItem_CreateAnItemWithATitleLongerThan80Characters_ItemNotCreatedAndExceptionIsThrown()
+    [Fact]
+    public async Task CreateItem_CreateAnItemWithATitleLongerThan80Characters_ItemNotCreatedAndExceptionIsThrown()
     {
+        var frozenTime = DateTime.UtcNow;
+        var clock = new FakeTimeProvider(frozenTime);
+        var repository = new InMemoryRepository();
 
+        var foundItemService = new FoundItemService(repository, clock);
+        var title = "Test title that is more than 80 characters long, this should not be accepted by the constructor!";
+        var description = "Test description";
+        var category = Category.Other;
+        var foundLocation = "Attic near crepy doll.";
+        var foundItemDTO = new CreateFoundItemDTO
+        {
+            Title = title,
+            Category = category,
+            Description = description,
+            FoundLocation = foundLocation
+        };
+
+        await Assert.ThrowsAsync<ArgumentOutOfRangeException>(() => foundItemService.AddFoundItem(foundItemDTO));
     }
 
     [Fact(Skip = "Test not implemented")]
