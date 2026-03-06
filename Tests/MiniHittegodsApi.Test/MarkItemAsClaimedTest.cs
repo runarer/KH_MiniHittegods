@@ -1,27 +1,59 @@
 
 
+using System.Net;
+using System.Net.Http.Json;
+using Microsoft.AspNetCore.Mvc.Testing;
+using MiniHittegodsApi.DTOs;
+using MiniHittegodsCore.Model;
+
 namespace MiniHittegodsApi.Test;
 
-public class MarkItemAsClaimedTest
+public class MarkItemAsClaimedTest(WebApplicationFactory<Program> factory) : TestEnvironment(factory)
 {
-    [Fact(Skip = "Test not implemented")]
-    public void ClaimItem_MarkItemAsClaimedItemIsAvailableAndClaimedByGotAValue_Return200WithUpdatedItemAndStatusSetToClaimed()
+    [Fact]
+    public async Task ClaimItem_MarkItemAsClaimedItemIsAvailableAndClaimedByGotAValue_Return200WithUpdatedItemAndStatusSetToClaimed()
     {
+        var client = Client;
+        var foundItemResponse = await CreateAnItemOnTheServer(client, foundItems[0]);
+        foundItemResponse.EnsureSuccessStatusCode();
+        var location = await GetLocationOfResponse(foundItemResponse);
+        var claimer = "Test claimer";
+
+        var claimedItemResponse = await client.PostAsJsonAsync(location + "/claim", new FoundItemClaimRequestDTO(claimer));
+
+        claimedItemResponse.EnsureSuccessStatusCode();
+
+        var claimedItem = await GetFoundItemResponse(claimedItemResponse);
+        Assert.Equal(Status.Claimed, claimedItem.Status);
+        Assert.NotEqual(default, claimedItem.ClaimedAtUtc);
+        Assert.Equal(claimer, claimedItem.ClaimedBy);
 
     }
-    [Fact(Skip = "Test not implemented")]
-    public void ClaimItem_MarkItemAsClaimedIdOfItemNotAvailable_Return404AndErroMessage()
+    [Fact]
+    public async Task ClaimItem_MarkItemAsClaimedIdOfItemNotAvailable_Return404AndErroMessage()
     {
+        var client = Client;
 
+        var response = await client.PostAsJsonAsync($"/api/items/{Guid.NewGuid()}/claim", new FoundItemClaimRequestDTO("Test claimer"));
+
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        var notFoundRequest = await response.Content.ReadAsStringAsync();
+        Assert.Contains("Item not found!", notFoundRequest);
     }
-    [Fact(Skip = "Test not implemented")]
-    public void ClaimItem_MarkItemAsClaimedItemIsNotAvailable_Return409AndErrorMessage()
+    [Fact]
+    public async Task ClaimItem_MarkItemAsClaimedItemIsNotAvailable_Return409AndErrorMessage()
     {
+        var client = Client;
+        var foundItemResponse = await CreateAnItemOnTheServer(client, foundItems[0]);
+        foundItemResponse.EnsureSuccessStatusCode();
+        var location = await GetLocationOfResponse(foundItemResponse);
+        var claimedItemResponse = await client.PostAsJsonAsync(location + "/claim", new FoundItemClaimRequestDTO("Test claimer"));
+        claimedItemResponse.EnsureSuccessStatusCode();
 
-    }
-    [Fact(Skip = "Not Implemented, wait until I'm sure I got time.")]
-    public void ClaimItem_MarkItemAsClaimedItemIsAvailableButClaimedByGotNoValue_Return400AndErrorMessage()
-    {
+        var claimClaimedItemResponse = await client.PostAsJsonAsync(location + "/claim", new FoundItemClaimRequestDTO("Second claimer"));
 
+        Assert.Equal(HttpStatusCode.Conflict, claimClaimedItemResponse.StatusCode);
+        var notFoundRequest = await claimClaimedItemResponse.Content.ReadAsStringAsync();
+        Assert.Contains("Item allready claimed!", notFoundRequest);
     }
 }
