@@ -267,7 +267,7 @@ public class MiniHittegodsCoreTest
             return [.. _storage.Values];
         }
 
-        public async Task<FoundItem> GetFoundItemAsync(Guid id)
+        public async Task<FoundItem?> GetFoundItemAsync(Guid id)
         {
             return _storage[id];
         }

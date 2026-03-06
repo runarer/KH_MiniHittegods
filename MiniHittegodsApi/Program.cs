@@ -47,6 +47,37 @@ app.MapPost("/api/items", async (FoundItemPostRequestDTO foundItem) =>
     return Results.Created($"api/items/{foundItemDTO!.Id}", foundItemDTO);
 });
 
+app.MapPost("/api/items/{id:Guid}/claim", async (Guid id, FoundItemClaimRequestDTO claimer) =>
+{
+
+    var (type, foundItemDTO) = await service.Claim(id, claimer.ClaimedBy);
+
+    if (type == FoundItemResultType.NotFound)
+        return Results.NotFound("Item not found!");
+
+    if (type == FoundItemResultType.Conflict)
+        return Results.Conflict("Item allready claimed!");
+
+    if (foundItemDTO is null)
+        throw new InvalidOperationException("Item was not created");
+
+    return Results.Created($"api/items/{foundItemDTO!.Id}", foundItemDTO);
+
+});
+
+app.MapGet("/api/items/{id:Guid}", async (Guid id) =>
+{
+    var (type, foundItemDTO) = await service.Get(id);
+
+    if (type == FoundItemResultType.NotFound)
+        return Results.NotFound("Item not found!");
+
+    if (type != FoundItemResultType.Ok || foundItemDTO is null)
+        throw new InvalidOperationException("Unexpected error!");
+
+    return Results.Ok(foundItemDTO);
+});
+
 
 app.Run();
 

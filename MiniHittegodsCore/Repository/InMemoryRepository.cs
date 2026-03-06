@@ -21,9 +21,14 @@ public class InMemoryRepository : IFoundItemRepository
         return [.. _storage.Values];
     }
 
-    public async Task<FoundItem> GetFoundItemAsync(Guid id)
+    public async Task<FoundItem?> GetFoundItemAsync(Guid id)
     {
-        return _storage[id];
+        var found = _storage.TryGetValue(id, out FoundItem? item);
+
+        if (!found)
+            return null;
+
+        return item;
     }
 
     public async Task UpdateFoundItem(FoundItem foundItem)
