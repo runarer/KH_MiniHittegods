@@ -1,17 +1,43 @@
 
 
+using System.Net;
+using System.Net.Http.Json;
+using Microsoft.AspNetCore.Mvc.Testing;
+using MiniHittegodsCore.Model.DTO;
+
 namespace MiniHittegodsApi.Test;
 
-public class GetItemTest
+public class GetItemTest(WebApplicationFactory<Program> factory) : TestEnvironment(factory)
 {
-    [Fact(Skip = "Test not implemented")]
-    public void GetItem_GetItemWithSpecifiedId_Return200AndItemObject()
+    [Fact]
+    public async Task GetItem_GetItemWithSpecifiedId_Return200AndItemObject()
     {
+        var client = Client;
 
+        var addedFoundItem = await CreateAnItemOnTheServer(client, foundItems[0]);
+        var addedFoundItemLocation = await GetLocationOfResponse(addedFoundItem);
+
+
+        var response = await client.GetAsync(addedFoundItemLocation);
+
+
+        response.EnsureSuccessStatusCode();
+        var foundItem = await response.Content.ReadFromJsonAsync<FoundItemDTO>();
+        Assert.NotNull(foundItem);
+        Assert.Equal(foundItems[0].Title, foundItem.Title);
+        Assert.Equal(foundItems[0].Description, foundItem.Description);
+        Assert.Equal(foundItems[0].Category, foundItem.Category);
+        Assert.Equal(foundItems[0].FoundLocation, foundItem.FoundLocation);
     }
-    [Fact(Skip = "Test not implemented")]
-    public void GetItem_GetItemWithSpecifiedIdWhenIdDoesntExcist_Return404AndErrorMessage()
+    [Fact]
+    public async Task GetItem_GetItemWithSpecifiedIdWhenIdDoesntExcist_Return404AndErrorMessage()
     {
+        var client = Client;
 
+        var response = await client.GetAsync($"/api/items/{Guid.NewGuid()}");
+
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        var notFoundRequest = await response.Content.ReadAsStringAsync();
+        Assert.Contains("Item not found!", notFoundRequest);
     }
 }
