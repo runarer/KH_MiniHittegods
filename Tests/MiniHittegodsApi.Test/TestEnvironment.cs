@@ -1,7 +1,7 @@
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace NoteStorageTests;
+namespace MiniHittegodsApi.Test;
 
 public class TestEnvironment : IClassFixture<WebApplicationFactory<Program>>
 {
