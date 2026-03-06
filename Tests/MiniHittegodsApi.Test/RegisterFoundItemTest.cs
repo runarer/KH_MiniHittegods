@@ -30,15 +30,15 @@ public class RegisterFoundItemTest(WebApplicationFactory<Program> factory) : Tes
         Assert.NotNull(response.Headers.Location);
         Assert.Contains($"/api/items/{createResponse.Id}", response.Headers.Location.ToString());
     }
-    [Fact(Skip = "Test not implemented")]
-    public void RegisterItem_RegisterAnItemWithoutTitle_Returns400AndErrorMessage()
-    {
+    // [Fact(Skip = "Test not implemented")]
+    // public void RegisterItem_RegisterAnItemWithoutTitle_Returns400AndErrorMessage()
+    // {
 
-    }
+    // }
 
-    [Fact(Skip = "Test not implemented")]
-    public void RegisterItem_RegisterAnItemWithoutFoundLocation_Returns400AndErrorMessage()
-    {
+    // [Fact(Skip = "Test not implemented")]
+    // public void RegisterItem_RegisterAnItemWithoutFoundLocation_Returns400AndErrorMessage()
+    // {
 
-    }
+    // }
 }
