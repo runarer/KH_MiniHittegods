@@ -14,18 +14,3 @@ public record class FoundItemResponseDTO(
     DateTimeOffset ClaimedAtUtc,
     DateTimeOffset ReturnedAtUtc
 );
-
-
-/*
-
-    public DateTimeOffset FoundAtUtc { get; init; }
-
-
-    public Status Status { get; set; } = Status.Available;
-
-    public string? ClaimedBy { get; set; }
-
-    public DateTimeOffset ClaimedAtUtc { get; set; }
-    public DateTimeOffset ReturnedAtUtc { get; set; }
-
-*/
