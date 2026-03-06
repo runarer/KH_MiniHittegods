@@ -14,7 +14,7 @@ public class RegisterFoundItemTest(WebApplicationFactory<Program> factory) : Tes
         var client = Client;
         var foundItemPostRequestDTO = new FoundItemPostRequestDTO("Test Item", "Test item description", Category.Other, "Alley behind the abandoned mansion.");
 
-        var response = await client.PostAsJsonAsync("api/items", foundItemPostRequestDTO);
+        var response = await client.PostAsJsonAsync("/api/items", foundItemPostRequestDTO);
         response.EnsureSuccessStatusCode();
 
         var createResponse = await response.Content.ReadFromJsonAsync<FoundItemResponseDTO>();
@@ -28,6 +28,6 @@ public class RegisterFoundItemTest(WebApplicationFactory<Program> factory) : Tes
         Assert.NotEqual(default, createResponse.FoundAtUtc);
         Assert.Equal(HttpStatusCode.Created, response.StatusCode);
         Assert.NotNull(response.Headers.Location);
-        Assert.Contains($"/api/items/{createResponse.Id}", response.Headers.Location.ToString());
+        Assert.Contains($"api/items/{createResponse.Id}", response.Headers.Location.ToString());
     }
 }
