@@ -14,4 +14,8 @@
     <ProjectReference Include="..\MiniHittegodsCore\MiniHittegodsCore.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOs\" />
+  </ItemGroup>
+
 </Project>
