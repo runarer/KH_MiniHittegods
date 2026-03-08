@@ -12,7 +12,7 @@ public class FoundItem
     [StringLength(80, MinimumLength = 3, ErrorMessage = "Title must be between 3 and 80 characters")]
     public required string Title { get; init; }
     public Category Category { get; init; }
-    public string? Description { get; init; }
+    public string Description { get; init; } = string.Empty;
 
     [Required(ErrorMessage = "Item need a location of where it was found.")]
     public required string FoundLocation { get; init; }
@@ -22,7 +22,7 @@ public class FoundItem
 
     public Status Status { get; set; } = Status.Available;
 
-    public string? ClaimedBy { get; set; }
+    public string ClaimedBy { get; set; } = string.Empty;
 
     public DateTimeOffset ClaimedAtUtc { get; set; }
     public DateTimeOffset ReturnedAtUtc { get; set; }
