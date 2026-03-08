@@ -44,12 +44,30 @@ public class TestEnvironment : IClassFixture<WebApplicationFactory<Program>>
         return createdNoteResponse;
     }
 
-    protected readonly FoundItemPostRequestDTO[] foundItems =
+    protected static async Task<List<HttpResponseMessage>> CreateSeveralFoundItemsOnServer(HttpClient client, IEnumerable<FoundItemPostRequestDTO> items)
+    {
+        List<HttpResponseMessage> results = [];
+
+        foreach (var item in items)
+        {
+            var addedNote = await CreateAnItemOnTheServer(client, item);
+            results.Add(addedNote);
+        }
+
+        return results;
+    }
+
+    protected static readonly FoundItemPostRequestDTO[] foundItems =
     [
         new FoundItemPostRequestDTO("Test item with index 0","Test description for item 0",Category.Other,"Test found location for item 0"),
         new FoundItemPostRequestDTO("Test item with index 1","Test description for item 1",Category.Keys,"Test found location for item 1"),
         new FoundItemPostRequestDTO("Test item with index 2","Test description for item 2",Category.Clothning,"Test found location for item 2"),
         new FoundItemPostRequestDTO("Test item with index 3","Test description for item 3",Category.Wallet,"Test found location for item 3"),
         new FoundItemPostRequestDTO("Test item with index 4","Test description for item 4",Category.Other,"Test found location for item 4"),
+        new FoundItemPostRequestDTO("Test item with index 5","Test description for item 0",Category.Other,"Test found location for item 5"),
+        new FoundItemPostRequestDTO("Test item with index 6","Test description for item 1",Category.Keys,"Test found location for item 6"),
+        new FoundItemPostRequestDTO("Test item with index 7","Test description for item 2",Category.Clothning,"Test found location for item 7"),
+        new FoundItemPostRequestDTO("Test item with index 8","Test description for item 3",Category.Wallet,"Test found location for item 8"),
+        new FoundItemPostRequestDTO("Test item with index 9","Test description for item 4",Category.Other,"Test found location for item 9"),
     ];
 }
