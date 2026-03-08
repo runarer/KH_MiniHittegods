@@ -10,8 +10,8 @@ namespace MiniHittegodsCore.Services;
 public class FoundItemService(IFoundItemRepository foundItemsRepository, TimeProvider clock)
 {
 
-    private IFoundItemRepository _foundItemsRepository = foundItemsRepository;
-    private TimeProvider _clock = clock;
+    private readonly IFoundItemRepository _foundItemsRepository = foundItemsRepository;
+    private readonly TimeProvider _clock = clock;
 
     public async Task<FoundItemResult> Add(CreateFoundItemDTO foundItemDTO)
     {
@@ -100,9 +100,9 @@ public class FoundItemService(IFoundItemRepository foundItemsRepository, TimePro
         return new(FoundItemResultType.Ok, FromModelToDTO(toGet));
     }
 
-    public async Task<List<FoundItemDTO>> GetAll()
+    public async Task<List<FoundItemDTO>> GetAll(Status status, Category category, string searchQuery)
     {
-        var all = await _foundItemsRepository.GetAllFoundItemsAsync();
+        var all = await _foundItemsRepository.GetItems(status, category, searchQuery);
 
         return [.. all.Select(FromModelToDTO)];
     }
