@@ -78,6 +78,19 @@ app.MapGet("/api/items/{id:Guid}", async (Guid id) =>
     return Results.Ok(foundItemDTO);
 });
 
+app.MapDelete("/api/items/{id:Guid}", async (Guid id) =>
+{
+    var (type, _) = await service.Delete(id);
+
+    if (type == FoundItemResultType.NotFound)
+        return Results.NotFound("Item not found!");
+
+    if (type == FoundItemResultType.Conflict)
+        return Results.Conflict("Item cannot be deleted!");
+
+    return Results.NoContent();
+});
+
 
 app.Run();
 
