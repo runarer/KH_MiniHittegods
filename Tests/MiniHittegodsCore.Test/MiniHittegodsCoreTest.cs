@@ -277,5 +277,10 @@ public class MiniHittegodsCoreTest
             throw new NotImplementedException();
         }
         public async Task Save() { }
+
+        public async Task<IReadOnlyList<FoundItem>> GetItems(Status? status, Category? category, string searchQuery)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
