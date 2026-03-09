@@ -63,7 +63,7 @@ app.MapPost("/api/items/{id:Guid}/claim", async (Guid id, FoundItemClaimRequestD
         return Results.NotFound("Item not found!");
 
     if (type == FoundItemResultType.Conflict)
-        return Results.Conflict("Item allready claimed!");
+        return Results.Conflict("Item not available!");
 
     if (foundItemDTO is null)
         throw new InvalidOperationException("Item was not created");

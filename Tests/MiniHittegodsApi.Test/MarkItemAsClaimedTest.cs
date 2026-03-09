@@ -53,6 +53,6 @@ public class MarkItemAsClaimedTest(CustomWebApplicationFactory<Program> factory)
 
         Assert.Equal(HttpStatusCode.Conflict, claimClaimedItemResponse.StatusCode);
         var notFoundRequest = await claimClaimedItemResponse.Content.ReadAsStringAsync();
-        Assert.Contains("Item allready claimed!", notFoundRequest);
+        Assert.Contains("Item not available!", notFoundRequest);
     }
 }
