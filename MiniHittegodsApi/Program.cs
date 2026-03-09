@@ -4,6 +4,7 @@ using Scalar.AspNetCore;
 using MiniHittegodsCore.Services;
 using MiniHittegodsCore.Repository;
 using MiniHittegodsCore.Model.DTO;
+using MiniHittegodsCore.Model;
 
 
 
@@ -89,6 +90,13 @@ app.MapDelete("/api/items/{id:Guid}", async (Guid id) =>
         return Results.Conflict("Item cannot be deleted!");
 
     return Results.NoContent();
+});
+
+app.MapGet("/api/items", async (Status? status, Category? category, string? q) =>
+{
+    var results = await service.GetAll(status, category, q);
+
+    return Results.Ok(results);
 });
 
 
