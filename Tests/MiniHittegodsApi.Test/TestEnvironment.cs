@@ -17,13 +17,13 @@ public class TestEnvironment : IClassFixture<CustomWebApplicationFactory<Program
 
     public HttpClient Client => _factory.CreateClient();
 
-    public async Task RestartAsync()
-    {
-        await _factory.DisposeAsync();
-        _factory = new WebApplicationFactory<Program>();
-    }
+    // public async Task RestartAsync()
+    // {
+    //     await _factory.DisposeAsync();
+    //     _factory = new WebApplicationFactory<Program>();
+    // }
 
-    protected static async Task<HttpResponseMessage> CreateAnItemOnTheServer(HttpClient client, FoundItemPostRequestDTO foundItem)
+    protected async Task<HttpResponseMessage> CreateAnItemOnTheServer(HttpClient client, FoundItemPostRequestDTO foundItem)
     {
         var response = await client.PostAsJsonAsync("api/items", foundItem);
         response.EnsureSuccessStatusCode();
@@ -31,20 +31,20 @@ public class TestEnvironment : IClassFixture<CustomWebApplicationFactory<Program
         return response;
     }
 
-    protected static async Task<Uri> GetLocationOfResponse(HttpResponseMessage response)
+    protected async Task<Uri> GetLocationOfResponse(HttpResponseMessage response)
     {
         Assert.NotNull(response.Headers.Location);
         return response.Headers.Location;
     }
 
-    protected static async Task<FoundItemResponseDTO> GetFoundItemResponse(HttpResponseMessage response)
+    protected async Task<FoundItemResponseDTO> GetFoundItemResponse(HttpResponseMessage response)
     {
         var createdNoteResponse = await response.Content.ReadFromJsonAsync<FoundItemResponseDTO>();
         Assert.NotNull(createdNoteResponse);
         return createdNoteResponse;
     }
 
-    protected static async Task<List<HttpResponseMessage>> CreateSeveralFoundItemsOnServer(HttpClient client, IEnumerable<FoundItemPostRequestDTO> items)
+    protected async Task<List<HttpResponseMessage>> CreateSeveralFoundItemsOnServer(HttpClient client, IEnumerable<FoundItemPostRequestDTO> items)
     {
         List<HttpResponseMessage> results = [];
 
@@ -57,7 +57,7 @@ public class TestEnvironment : IClassFixture<CustomWebApplicationFactory<Program
         return results;
     }
 
-    protected static readonly FoundItemPostRequestDTO[] foundItems =
+    protected readonly FoundItemPostRequestDTO[] foundItems =
     [
         new FoundItemPostRequestDTO("Test item with index 0","Test description for item 0",Category.Other,"Test found location for item 0"),
         new FoundItemPostRequestDTO("Test item with index 1 -SearchTest-","Test description for item 1",Category.Keys,"Test found location for item 1"),
@@ -67,7 +67,7 @@ public class TestEnvironment : IClassFixture<CustomWebApplicationFactory<Program
         new FoundItemPostRequestDTO("Test item with index 5","Test description for item 0",Category.Other,"Test found location for item 5"),
         new FoundItemPostRequestDTO("Test item with index 6","Test description for item 1",Category.Keys,"Test found location for item 6"),
         new FoundItemPostRequestDTO("Test item with index 7","Test description for item 2",Category.Clothning,"Test found location for item 7"),
-        new FoundItemPostRequestDTO("Test item with index 8","Test description for item 3",Category.Wallet,"Test found location for item 8 -SearchTest-"),
-        new FoundItemPostRequestDTO("Test item with index 9","Test description for item 4",Category.Other,"Test found location for item 9 -SearchTest-"),
+        new FoundItemPostRequestDTO("Test item with index 8","Test description for item 3 -SearchTest-",Category.Wallet,"Test found location for item 8"),
+        new FoundItemPostRequestDTO("Test item with index 9","Test description for item 4 -SearchTest-",Category.Other,"Test found location for item 9"),
     ];
 }
