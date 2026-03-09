@@ -68,7 +68,25 @@ app.MapPost("/api/items/{id:Guid}/claim", async (Guid id, FoundItemClaimRequestD
     if (foundItemDTO is null)
         throw new InvalidOperationException("Item was not created");
 
-    return Results.Created($"api/items/{foundItemDTO!.Id}", foundItemDTO);
+    return Results.Ok(foundItemDTO);
+
+});
+
+app.MapPost("/api/items/{id:Guid}/return", async (Guid id, IFoundItemService service) =>
+{
+
+    var (type, foundItemDTO) = await service.Return(id);
+
+    if (type == FoundItemResultType.NotFound)
+        return Results.NotFound("Item not found!");
+
+    if (type == FoundItemResultType.Conflict)
+        return Results.Conflict("Item not claimed!");
+
+    if (foundItemDTO is null)
+        throw new InvalidOperationException("Item was not created");
+
+    return Results.Ok(foundItemDTO);
 
 });
 
