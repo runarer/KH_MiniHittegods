@@ -278,7 +278,7 @@ public class MiniHittegodsCoreTest
         }
         public async Task Save() { }
 
-        public async Task<IReadOnlyList<FoundItem>> GetItems(Status? status, Category? category, string searchQuery)
+        public async Task<IReadOnlyList<FoundItem>> GetItems(Status? status, Category? category, string? searchQuery)
         {
             throw new NotImplementedException();
         }
