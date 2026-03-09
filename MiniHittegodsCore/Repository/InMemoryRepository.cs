@@ -6,7 +6,7 @@ namespace MiniHittegodsCore.Repository;
 public class InMemoryRepository : IFoundItemRepository
 {
     private readonly Dictionary<Guid, FoundItem> _storage = [];
-    public async Task<IReadOnlyList<FoundItem>> GetItems(Status? status, Category? category, string searchQuery)
+    public async Task<IReadOnlyList<FoundItem>> GetItems(Status? status, Category? category, string? searchQuery)
     {
         var query = _storage.Select(item => item.Value);
 

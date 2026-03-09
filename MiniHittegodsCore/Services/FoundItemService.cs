@@ -100,7 +100,7 @@ public class FoundItemService(IFoundItemRepository foundItemsRepository, TimePro
         return new(FoundItemResultType.Ok, FromModelToDTO(toGet));
     }
 
-    public async Task<List<FoundItemDTO>> GetAll(Status status, Category category, string searchQuery)
+    public async Task<List<FoundItemDTO>> GetAll(Status? status, Category? category, string? searchQuery)
     {
         var all = await _foundItemsRepository.GetItems(status, category, searchQuery);
 
