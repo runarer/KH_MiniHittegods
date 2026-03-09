@@ -2,7 +2,6 @@ using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
 using MiniHittegodsApi.DTOs;
 using MiniHittegodsCore.Model;
-using MiniHittegodsCore.Model.DTO;
 
 namespace MiniHittegodsApi.Test;
 
@@ -16,12 +15,6 @@ public class TestEnvironment : IClassFixture<CustomWebApplicationFactory<Program
     }
 
     public HttpClient Client => _factory.CreateClient();
-
-    // public async Task RestartAsync()
-    // {
-    //     await _factory.DisposeAsync();
-    //     _factory = new WebApplicationFactory<Program>();
-    // }
 
     protected async Task<HttpResponseMessage> CreateAnItemOnTheServer(HttpClient client, FoundItemPostRequestDTO foundItem)
     {
