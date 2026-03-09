@@ -1,7 +1,7 @@
 using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
 using MiniHittegodsApi.DTOs;
-using MiniHittegodsCore.Model;
+using MiniHittegodsApi.Model;
 
 namespace MiniHittegodsApi.Test;
 

@@ -1,11 +1,11 @@
 using MiniHittegodsApi.DTOs;
 using Scalar.AspNetCore;
 
-using MiniHittegodsCore.Services;
-using MiniHittegodsCore.Repository;
-using MiniHittegodsCore.Model.DTO;
-using MiniHittegodsCore.Model;
-using MiniHittegodsCore.Interfaces;
+using MiniHittegodsApi.Services;
+using MiniHittegodsApi.Repository;
+using MiniHittegodsApi.Model.DTO;
+using MiniHittegodsApi.Model;
+using MiniHittegodsApi.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 

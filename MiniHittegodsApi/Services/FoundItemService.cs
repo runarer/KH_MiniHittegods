@@ -1,9 +1,9 @@
 
-using MiniHittegodsCore.Interfaces;
-using MiniHittegodsCore.Model;
-using MiniHittegodsCore.Model.DTO;
+using MiniHittegodsApi.Interfaces;
+using MiniHittegodsApi.Model;
+using MiniHittegodsApi.Model.DTO;
 
-namespace MiniHittegodsCore.Services;
+namespace MiniHittegodsApi.Services;
 
 
 public class FoundItemService(IFoundItemRepository foundItemsRepository, TimeProvider clock) : IFoundItemService

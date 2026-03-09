@@ -1,9 +1,9 @@
 
-using MiniHittegodsCore.Model;
-using MiniHittegodsCore.Model.DTO;
-using MiniHittegodsCore.Services;
+using MiniHittegodsApi.Model;
+using MiniHittegodsApi.Model.DTO;
+using MiniHittegodsApi.Services;
 
-namespace MiniHittegodsCore.Interfaces;
+namespace MiniHittegodsApi.Interfaces;
 
 public interface IFoundItemService
 {

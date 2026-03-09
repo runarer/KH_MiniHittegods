@@ -1,9 +1,9 @@
 
 using Microsoft.Extensions.Time.Testing;
-using MiniHittegodsCore.Interfaces;
-using MiniHittegodsCore.Model;
-using MiniHittegodsCore.Model.DTO;
-using MiniHittegodsCore.Services;
+using MiniHittegodsApi.Interfaces;
+using MiniHittegodsApi.Model;
+using MiniHittegodsApi.Model.DTO;
+using MiniHittegodsApi.Services;
 
 namespace MiniHittegodsCore.Test;
 

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
-using MiniHittegodsCore.Model;
+using MiniHittegodsApi.Model;
 
-namespace MiniHittegodsCore.Repository;
+namespace MiniHittegodsApi.Repository;
 
 public class FoundItemDbContext(DbContextOptions<FoundItemDbContext> options) : DbContext(options)
 {

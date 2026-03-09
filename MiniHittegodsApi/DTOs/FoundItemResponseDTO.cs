@@ -1,4 +1,4 @@
-using MiniHittegodsCore.Model;
+using MiniHittegodsApi.Model;
 
 namespace MiniHittegodsApi.DTOs;
 

@@ -1,5 +1,5 @@
 
-namespace MiniHittegodsCore.Model.DTO;
+namespace MiniHittegodsApi.Model.DTO;
 
 public class CreateFoundItemDTO
 {

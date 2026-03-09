@@ -1,8 +1,8 @@
-using System;
-using Microsoft.EntityFrameworkCore;
-using MiniHittegodsCore.Model;
 
-namespace MiniHittegodsCore.Context;
+using Microsoft.EntityFrameworkCore;
+using MiniHittegodsApi.Model;
+
+namespace MiniHittegodsApi.Context;
 
 public class FoundItemContext : DbContext
 {

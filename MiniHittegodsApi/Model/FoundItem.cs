@@ -1,7 +1,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace MiniHittegodsCore.Model;
+namespace MiniHittegodsApi.Model;
 
 public class FoundItem
 {

@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
-using MiniHittegodsCore.Interfaces;
-using MiniHittegodsCore.Model;
+using MiniHittegodsApi.Interfaces;
+using MiniHittegodsApi.Model;
 
-namespace MiniHittegodsCore.Repository;
+namespace MiniHittegodsApi.Repository;
 
 public class PostgreSqlRepository : IFoundItemRepository
 {

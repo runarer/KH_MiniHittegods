@@ -1,7 +1,7 @@
 
-using MiniHittegodsCore.Model;
+using MiniHittegodsApi.Model;
 
-namespace MiniHittegodsCore.Interfaces;
+namespace MiniHittegodsApi.Interfaces;
 
 public interface IFoundItemRepository
 {

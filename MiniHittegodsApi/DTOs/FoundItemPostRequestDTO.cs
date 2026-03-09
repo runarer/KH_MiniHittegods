@@ -1,5 +1,5 @@
 using System.ComponentModel.DataAnnotations;
-using MiniHittegodsCore.Model;
+using MiniHittegodsApi.Model;
 
 namespace MiniHittegodsApi.DTOs;
 

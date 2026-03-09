@@ -2,7 +2,7 @@
 
 using System.Net;
 using System.Net.Http.Json;
-using MiniHittegodsCore.Model.DTO;
+using MiniHittegodsApi.Model.DTO;
 
 namespace MiniHittegodsApi.Test;
 

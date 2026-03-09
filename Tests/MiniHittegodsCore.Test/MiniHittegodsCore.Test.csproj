@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\MiniHittegodsCore\MiniHittegodsCore.csproj" />
+    <ProjectReference Include="..\..\MiniHittegodsApi\MiniHittegodsApi.csproj" />
   </ItemGroup>
 
 </Project>

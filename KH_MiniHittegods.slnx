@@ -4,5 +4,4 @@
     <Project Path="Tests/MiniHittegodsCore.Test/MiniHittegodsCore.Test.csproj" />
   </Folder>
   <Project Path="MiniHittegodsApi/MiniHittegodsApi.csproj" />
-  <Project Path="MiniHittegodsCore/MiniHittegodsCore.csproj" />
 </Solution>

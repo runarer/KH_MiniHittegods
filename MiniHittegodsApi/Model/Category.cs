@@ -1,6 +1,6 @@
 
 
-namespace MiniHittegodsCore.Model;
+namespace MiniHittegodsApi.Model;
 
 public enum Category
 {
