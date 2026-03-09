@@ -5,6 +5,7 @@ using MiniHittegodsCore.Services;
 using MiniHittegodsCore.Repository;
 using MiniHittegodsCore.Model.DTO;
 using MiniHittegodsCore.Model;
+using MiniHittegodsCore.Interfaces;
 
 
 
@@ -13,8 +14,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddHealthChecks();
 
-var storage = new InMemoryRepository();
-var service = new FoundItemService(storage, TimeProvider.System);
+// var storage = new InMemoryRepository();
+// var service = new FoundItemService(storage, TimeProvider.System);
+
+
+builder.Services.AddSingleton(TimeProvider.System);
+builder.Services.AddSingleton<IFoundItemRepository, InMemoryRepository>();
+builder.Services.AddSingleton<IFoundItemService, FoundItemService>();
 
 
 var app = builder.Build();
@@ -30,7 +36,7 @@ app.UseHttpsRedirection();
 
 app.MapHealthChecks("/health");
 
-app.MapPost("/api/items", async (FoundItemPostRequestDTO foundItem) =>
+app.MapPost("/api/items", async (FoundItemPostRequestDTO foundItem, IFoundItemService service) =>
 {
     var createFoundItemDTO = new CreateFoundItemDTO
     {
@@ -48,7 +54,7 @@ app.MapPost("/api/items", async (FoundItemPostRequestDTO foundItem) =>
     return Results.Created($"api/items/{foundItemDTO!.Id}", foundItemDTO);
 });
 
-app.MapPost("/api/items/{id:Guid}/claim", async (Guid id, FoundItemClaimRequestDTO claimer) =>
+app.MapPost("/api/items/{id:Guid}/claim", async (Guid id, FoundItemClaimRequestDTO claimer, IFoundItemService service) =>
 {
 
     var (type, foundItemDTO) = await service.Claim(id, claimer.ClaimedBy);
@@ -66,7 +72,7 @@ app.MapPost("/api/items/{id:Guid}/claim", async (Guid id, FoundItemClaimRequestD
 
 });
 
-app.MapGet("/api/items/{id:Guid}", async (Guid id) =>
+app.MapGet("/api/items/{id:Guid}", async (Guid id, IFoundItemService service) =>
 {
     var (type, foundItemDTO) = await service.Get(id);
 
@@ -79,7 +85,7 @@ app.MapGet("/api/items/{id:Guid}", async (Guid id) =>
     return Results.Ok(foundItemDTO);
 });
 
-app.MapDelete("/api/items/{id:Guid}", async (Guid id) =>
+app.MapDelete("/api/items/{id:Guid}", async (Guid id, IFoundItemService service) =>
 {
     var (type, _) = await service.Delete(id);
 
@@ -92,7 +98,7 @@ app.MapDelete("/api/items/{id:Guid}", async (Guid id) =>
     return Results.NoContent();
 });
 
-app.MapGet("/api/items", async (Status? status, Category? category, string? q) =>
+app.MapGet("/api/items", async (Status? status, Category? category, string? q, IFoundItemService service) =>
 {
     var results = await service.GetAll(status, category, q);
 
