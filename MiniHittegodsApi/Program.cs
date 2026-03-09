@@ -6,6 +6,7 @@ using MiniHittegodsCore.Repository;
 using MiniHittegodsCore.Model.DTO;
 using MiniHittegodsCore.Model;
 using MiniHittegodsCore.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 
 
@@ -14,12 +15,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddOpenApi();
 builder.Services.AddHealthChecks();
 
-// var storage = new InMemoryRepository();
-// var service = new FoundItemService(storage, TimeProvider.System);
-
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<FoundItemDbContext>(options => options.UseNpgsql(connectionString));
 
 builder.Services.AddSingleton(TimeProvider.System);
-builder.Services.AddSingleton<IFoundItemRepository, InMemoryRepository>();
+builder.Services.AddSingleton<IFoundItemRepository, PostgreSqlRepository>();
 builder.Services.AddSingleton<IFoundItemService, FoundItemService>();
 
 
