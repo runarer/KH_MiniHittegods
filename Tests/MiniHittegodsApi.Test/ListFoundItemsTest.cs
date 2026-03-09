@@ -2,15 +2,15 @@
 
 using System.Net;
 using System.Net.Http.Json;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.AspNetCore.Mvc.Testing;
 using MiniHittegodsApi.DTOs;
 using MiniHittegodsCore.Model;
 
 namespace MiniHittegodsApi.Test;
 
-public class ListFoundItemsTests(WebApplicationFactory<Program> factory) : TestEnvironment(factory)
+public class ListFoundItemsTests(CustomWebApplicationFactory<Program> factory) : TestEnvironment(factory)
 {
+
+
     [Fact]
     public async Task ListItems_ListAllItems_Returns200WithListOfAllItems()
     {

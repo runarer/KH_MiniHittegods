@@ -2,12 +2,11 @@
 
 using System.Net;
 using System.Net.Http.Json;
-using Microsoft.AspNetCore.Mvc.Testing;
 using MiniHittegodsCore.Model.DTO;
 
 namespace MiniHittegodsApi.Test;
 
-public class GetItemTest(WebApplicationFactory<Program> factory) : TestEnvironment(factory)
+public class GetItemTest(CustomWebApplicationFactory<Program> factory) : TestEnvironment(factory)
 {
     [Fact]
     public async Task GetItem_GetItemWithSpecifiedId_Return200AndItemObject()

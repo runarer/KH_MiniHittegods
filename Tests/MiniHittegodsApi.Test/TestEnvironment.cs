@@ -6,7 +6,7 @@ using MiniHittegodsCore.Model.DTO;
 
 namespace MiniHittegodsApi.Test;
 
-public class TestEnvironment : IClassFixture<WebApplicationFactory<Program>>
+public class TestEnvironment : IClassFixture<CustomWebApplicationFactory<Program>>
 {
     protected WebApplicationFactory<Program> _factory;
 

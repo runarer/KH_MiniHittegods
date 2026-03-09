@@ -1,12 +1,11 @@
 
 using System.Net;
 using System.Net.Http.Json;
-using Microsoft.AspNetCore.Mvc.Testing;
 using MiniHittegodsApi.DTOs;
 
 namespace MiniHittegodsApi.Test;
 
-public class DeleteFoundTest(WebApplicationFactory<Program> factory) : TestEnvironment(factory)
+public class DeleteFoundTestCustom(CustomWebApplicationFactory<Program> factory) : TestEnvironment(factory)
 {
     [Fact]
     public async Task DeleteItem_DeleteItemWithIdItemExcistsAndGotStatusAsAvailable_Return204()

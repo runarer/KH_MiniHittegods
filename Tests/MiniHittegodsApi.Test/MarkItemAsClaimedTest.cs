@@ -2,13 +2,12 @@
 
 using System.Net;
 using System.Net.Http.Json;
-using Microsoft.AspNetCore.Mvc.Testing;
 using MiniHittegodsApi.DTOs;
 using MiniHittegodsCore.Model;
 
 namespace MiniHittegodsApi.Test;
 
-public class MarkItemAsClaimedTest(WebApplicationFactory<Program> factory) : TestEnvironment(factory)
+public class MarkItemAsClaimedTest(CustomWebApplicationFactory<Program> factory) : TestEnvironment(factory)
 {
     [Fact]
     public async Task ClaimItem_MarkItemAsClaimedItemIsAvailableAndClaimedByGotAValue_Return200WithUpdatedItemAndStatusSetToClaimed()

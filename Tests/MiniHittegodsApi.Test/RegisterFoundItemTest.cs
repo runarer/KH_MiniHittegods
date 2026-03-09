@@ -6,7 +6,7 @@ using MiniHittegodsCore.Model;
 
 namespace MiniHittegodsApi.Test;
 
-public class RegisterFoundItemTest(WebApplicationFactory<Program> factory) : TestEnvironment(factory)
+public class RegisterFoundItemTest(CustomWebApplicationFactory<Program> factory) : TestEnvironment(factory)
 {
     [Fact]
     public async Task RegisterItem_RegisterAValidItem_Returns201LocationAndObjectCreated()

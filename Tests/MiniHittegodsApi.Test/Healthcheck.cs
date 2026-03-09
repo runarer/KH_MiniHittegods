@@ -1,9 +1,9 @@
 
-using Microsoft.AspNetCore.Mvc.Testing;
+
 
 namespace MiniHittegodsApi.Test;
 
-public class HealthCheck(WebApplicationFactory<Program> factory) : TestEnvironment(factory)
+public class HealthCheck(CustomWebApplicationFactory<Program> factory) : TestEnvironment(factory)
 {
     [Fact]
     public async Task Get_EndpointReturnSuccess()
