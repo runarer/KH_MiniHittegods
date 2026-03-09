@@ -1,5 +1,4 @@
 
-using System.ComponentModel.DataAnnotations;
 using MiniHittegodsCore.Interfaces;
 using MiniHittegodsCore.Model;
 using MiniHittegodsCore.Model.DTO;
@@ -7,7 +6,7 @@ using MiniHittegodsCore.Model.DTO;
 namespace MiniHittegodsCore.Services;
 
 
-public class FoundItemService(IFoundItemRepository foundItemsRepository, TimeProvider clock)
+public class FoundItemService(IFoundItemRepository foundItemsRepository, TimeProvider clock) : IFoundItemService
 {
 
     private readonly IFoundItemRepository _foundItemsRepository = foundItemsRepository;
