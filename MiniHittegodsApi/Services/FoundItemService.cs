@@ -67,8 +67,6 @@ public class FoundItemService(IFoundItemRepository foundItemsRepository, TimePro
         toClaim.ClaimedBy = claimedBy;
         toClaim.ClaimedAtUtc = _clock.GetUtcNow();
 
-        await _foundItemsRepository.Save();
-
         return new(FoundItemResultType.Ok, FromModelToDTO(toClaim));
     }
     public async Task<FoundItemResult> Return(Guid id)
@@ -83,8 +81,6 @@ public class FoundItemService(IFoundItemRepository foundItemsRepository, TimePro
 
         toReturn.Status = Status.Returned;
         toReturn.ReturnedAtUtc = _clock.GetUtcNow();
-
-        await _foundItemsRepository.Save();
 
         return new(FoundItemResultType.Ok, FromModelToDTO(toReturn));
     }
