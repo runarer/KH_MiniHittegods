@@ -1,0 +1,21 @@
+# Build the api
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS Build
+WORKDIR /App
+
+#Copy project file and restore
+COPY *.csproj ./
+RUN dotnet restore
+
+# Copy source code
+COPY . .
+
+# Compile api
+RUN dotnet publish -c Release -o out
+
+# Runtime for api
+FROM mcr.microsoft.com/dotnet/aspnet:10.0
+WORKDIR /App
+COPY --from=build /App/out .
+
+# Entrypoint, for starting api
+ENTRYPOINT ["dotnet","MiniHittegodsApi.dll"]
