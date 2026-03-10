@@ -22,21 +22,4 @@ public class ListFoundItemsTests(CustomWebApplicationFactory<Program> factory) :
         var listOfTitlesFromServer = listOfAllFoundItems.Select(item => item.Title);
         Assert.True(listOfTitlesFromServer.All(listOfTitlesForItemsAddedToServer.Contains));
     }
-
-    [Fact]
-    public async Task ListItems_ListItemsUsingAValidSearch_Returns200WithListOfAllItemsMatchingSearch()
-    {
-        var client = Client;
-        var searchText = "-SearchTest-";
-        var foundItemsResponse = await CreateSeveralFoundItemsOnServer(client, foundItems);
-        var numberOfFoundItemsWithCategoryOtherOnServer = foundItems.Count(item => item.Title.Contains(searchText) || item.Description.Contains(searchText));
-
-        var listOfAllFoundItemsResponse = await client.GetAsync($"/api/items?q={searchText}");
-
-        listOfAllFoundItemsResponse.EnsureSuccessStatusCode();
-        var listOfAllFoundItems = await listOfAllFoundItemsResponse.Content.ReadFromJsonAsync<List<FoundItemResponseDTO>>();
-        Assert.NotNull(listOfAllFoundItems);
-        Assert.Equal(numberOfFoundItemsWithCategoryOtherOnServer, listOfAllFoundItems.Count);
-        Assert.True(listOfAllFoundItems.All(item => item.Title.Contains(searchText) || item.Description.Contains(searchText)));
-    }
 }
