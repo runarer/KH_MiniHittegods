@@ -16,7 +16,7 @@ builder.Services.AddOpenApi();
 builder.Services.AddHealthChecks();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<FoundItemDbContext>(options => options.UseNpgsql(connectionString));
+builder.Services.AddDbContext<FoundItemDbContext>(options => options.UseNpgsql(connectionString), ServiceLifetime.Scoped);
 
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddSingleton<IFoundItemRepository, PostgreSqlRepository>();
