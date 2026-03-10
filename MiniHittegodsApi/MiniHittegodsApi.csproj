@@ -17,10 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\MiniHittegodsCore\MiniHittegodsCore.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="DTOs\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
