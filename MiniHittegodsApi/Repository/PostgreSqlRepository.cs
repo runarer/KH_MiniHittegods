@@ -11,6 +11,7 @@ public class PostgreSqlRepository : IFoundItemRepository
     public PostgreSqlRepository(FoundItemDbContext dbContext)
     {
         _dbContext = dbContext;
+        dbContext.Database.Migrate();
     }
     public async Task AddFoundItemAsync(FoundItem foundItem)
     {

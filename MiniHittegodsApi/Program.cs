@@ -26,12 +26,6 @@ builder.Services.AddSingleton<IFoundItemService, FoundItemService>();
 
 var app = builder.Build();
 
-using (var scope = app.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<FoundItemDbContext>();
-    dbContext.Database.Migrate();
-}
-
 app.MapOpenApi();
 app.MapScalarApiReference();
 
