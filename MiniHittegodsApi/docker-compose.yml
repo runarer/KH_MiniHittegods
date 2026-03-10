@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: hittegods
+      POSTGRES_PASSWORD: hittegods
+      POSTGRES_DB: hittegods
+    ports:
+      - "5432:5432"
+    volumes:
+      - hittegods_db:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hittegods -d hittegods"]
+      interval: 5s
+      timeout: 30s
+      retries: 10
+
+  webapi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      ASPNETCORE_URLS: http://+:8080
+      ConnectionStrings__Default: Host=db;Port=5432;Database=hittegods;Username=hittegods;Password=hittegods
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  hittegods_db:

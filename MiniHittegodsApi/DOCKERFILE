@@ -1,5 +1,5 @@
 # Build the api
-FROM mcr.microsoft.com/dotnet/sdk:10.0 AS Build
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
 WORKDIR /App
 
 #Copy project file and restore
