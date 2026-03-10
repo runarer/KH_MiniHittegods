@@ -21,7 +21,7 @@ services:
       dockerfile: Dockerfile
     environment:
       ASPNETCORE_URLS: http://+:8080
-      ConnectionStrings__Default: Host=db;Port=5432;Database=hittegods;Username=hittegods;Password=hittegods
+      ConnectionStrings:DefaultConnection: Host=db;Port=5432;Database=hittegods;User Id=hittegods;Password=hittegods
     ports:
       - "8080:8080"
     depends_on:
