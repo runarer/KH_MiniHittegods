@@ -40,6 +40,4 @@ public class InMemoryRepository : IFoundItemRepository
 
         return item;
     }
-
-    public async Task Save() { }
 }

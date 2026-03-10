@@ -12,28 +12,35 @@ public class PostgreSqlRepository : IFoundItemRepository
     {
         _dbContext = dbContext;
     }
-    public Task AddFoundItemAsync(FoundItem foundItem)
+    public async Task AddFoundItemAsync(FoundItem foundItem)
     {
-        throw new NotImplementedException();
+        _dbContext.FoundItems.Add(foundItem);
+        await _dbContext.SaveChangesAsync();
     }
 
-    public Task DeleteFoundItemAsync(Guid id)
+    public async Task DeleteFoundItemAsync(Guid id)
     {
-        throw new NotImplementedException();
+        await _dbContext.FoundItems.Where(item => item.Id == id).ExecuteDeleteAsync();
     }
 
-    public Task<FoundItem?> GetFoundItemAsync(Guid id)
+    public async Task<FoundItem?> GetFoundItemAsync(Guid id)
     {
-        throw new NotImplementedException();
+        return await _dbContext.FoundItems.FirstOrDefaultAsync(item => item.Id == id);
     }
 
-    public Task<IReadOnlyList<FoundItem>> GetItems(Status? status, Category? category, string? searchQuery)
+    public async Task<IReadOnlyList<FoundItem>> GetItems(Status? status, Category? category, string? searchQuery)
     {
-        throw new NotImplementedException();
-    }
+        var query = _dbContext.FoundItems.AsQueryable();
 
-    public Task Save()
-    {
-        throw new NotImplementedException();
+        if (status is not null)
+            query = query.Where(item => item.Status == status.Value);
+
+        if (category is not null)
+            query = query.Where(item => item.Category == category.Value);
+
+        if (!string.IsNullOrWhiteSpace(searchQuery))
+            query = query.Where(item => item.Title.Contains(searchQuery) || item.Description.Contains(searchQuery));
+
+        return await query.ToListAsync();
     }
 }
