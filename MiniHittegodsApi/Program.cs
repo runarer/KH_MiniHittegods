@@ -14,6 +14,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddOpenApi();
 builder.Services.AddHealthChecks();
+builder.Services.AddValidation();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<FoundItemDbContext>(options => options.UseNpgsql(connectionString), ServiceLifetime.Scoped);
@@ -22,7 +23,6 @@ builder.Services.AddDbContext<FoundItemDbContext>(options => options.UseNpgsql(c
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddSingleton<IFoundItemRepository, PostgreSqlRepository>();
 builder.Services.AddSingleton<IFoundItemService, FoundItemService>();
-
 
 var app = builder.Build();
 
