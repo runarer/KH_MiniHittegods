@@ -18,6 +18,7 @@ builder.Services.AddHealthChecks();
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<FoundItemDbContext>(options => options.UseNpgsql(connectionString), ServiceLifetime.Scoped);
 
+
 builder.Services.AddSingleton(TimeProvider.System);
 builder.Services.AddSingleton<IFoundItemRepository, PostgreSqlRepository>();
 builder.Services.AddSingleton<IFoundItemService, FoundItemService>();
@@ -25,6 +26,11 @@ builder.Services.AddSingleton<IFoundItemService, FoundItemService>();
 
 var app = builder.Build();
 
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<FoundItemDbContext>();
+    dbContext.Database.Migrate();
+}
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
