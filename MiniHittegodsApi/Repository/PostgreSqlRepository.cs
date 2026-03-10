@@ -8,16 +8,6 @@ public class PostgreSqlRepository : IFoundItemRepository
 {
     private readonly FoundItemDbContext _dbContext;
 
-    // public PostgreSqlRepository()
-    // {
-    //     string connectionString = "";
-
-    //     var optionsBuilder = new DbContextOptionsBuilder<FoundItemDbContext>();
-    //     optionsBuilder.UseNpgsql(connectionString);
-
-    //     dbContext = new FoundItemDbContext(optionsBuilder.Options);
-    // }
-
     public PostgreSqlRepository(FoundItemDbContext dbContext)
     {
         _dbContext = dbContext;
