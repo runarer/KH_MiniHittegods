@@ -41,9 +41,10 @@ public class DeleteFoundTestCustom(CustomWebApplicationFactory<Program> factory)
         var client = Client;
         var createdFoundItem = await CreateAnItemOnTheServer(client, foundItems[0]);
         var createdFoundItemLocation = await GetLocationOfResponse(createdFoundItem);
+        var claimer = new FoundItemClaimRequestDTO { ClaimedBy = "Test claimer" };
         var claimeItemResponse = await client.PostAsJsonAsync(
             createdFoundItemLocation + "/claim",
-            new FoundItemClaimRequestDTO("Test claimer"));
+            claimer);
         claimeItemResponse.EnsureSuccessStatusCode();
 
         var response = await client.DeleteAsync(createdFoundItemLocation);

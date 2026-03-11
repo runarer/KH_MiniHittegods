@@ -1,5 +1,7 @@
 using System.Net;
 using System.Net.Http.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using MiniHittegodsApi.DTOs;
 using MiniHittegodsApi.Model;
 
@@ -11,7 +13,8 @@ public class RegisterFoundItemTest(CustomWebApplicationFactory<Program> factory)
     public async Task RegisterItem_RegisterAValidItem_Returns201LocationAndObjectCreated()
     {
         var client = Client;
-        var foundItemPostRequestDTO = new FoundItemPostRequestDTO("Test Item", "Test item description", Category.Other, "Alley behind the abandoned mansion.");
+        var foundItemPostRequestDTO = new FoundItemPostRequestDTO { Title = "Test Item", Description = "Test item description", Category = Category.Other, FoundLocation = "Alley behind the abandoned mansion." };
+        // var foundItemPostRequestDTO = new FoundItemPostRequestDTO("Test Item", "Test item description", Category.Other, "Alley behind the abandoned mansion.");
 
         var response = await client.PostAsJsonAsync("/api/items", foundItemPostRequestDTO);
         response.EnsureSuccessStatusCode();

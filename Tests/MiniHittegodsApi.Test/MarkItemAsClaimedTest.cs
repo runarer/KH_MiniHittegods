@@ -18,7 +18,7 @@ public class MarkItemAsClaimedTest(CustomWebApplicationFactory<Program> factory)
         var location = await GetLocationOfResponse(foundItemResponse);
         var claimer = "Test claimer";
 
-        var claimedItemResponse = await client.PostAsJsonAsync(location + "/claim", new FoundItemClaimRequestDTO(claimer));
+        var claimedItemResponse = await client.PostAsJsonAsync(location + "/claim", new FoundItemClaimRequestDTO { ClaimedBy = claimer });
 
         claimedItemResponse.EnsureSuccessStatusCode();
 
@@ -33,7 +33,7 @@ public class MarkItemAsClaimedTest(CustomWebApplicationFactory<Program> factory)
     {
         var client = Client;
 
-        var response = await client.PostAsJsonAsync($"/api/items/{Guid.NewGuid()}/claim", new FoundItemClaimRequestDTO("Test claimer"));
+        var response = await client.PostAsJsonAsync($"/api/items/{Guid.NewGuid()}/claim", new FoundItemClaimRequestDTO { ClaimedBy = "Test claimer" });
 
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         var notFoundRequest = await response.Content.ReadAsStringAsync();
@@ -46,10 +46,10 @@ public class MarkItemAsClaimedTest(CustomWebApplicationFactory<Program> factory)
         var foundItemResponse = await CreateAnItemOnTheServer(client, foundItems[0]);
         foundItemResponse.EnsureSuccessStatusCode();
         var location = await GetLocationOfResponse(foundItemResponse);
-        var claimedItemResponse = await client.PostAsJsonAsync(location + "/claim", new FoundItemClaimRequestDTO("Test claimer"));
+        var claimedItemResponse = await client.PostAsJsonAsync(location + "/claim", new FoundItemClaimRequestDTO { ClaimedBy = "Test claimer" });
         claimedItemResponse.EnsureSuccessStatusCode();
 
-        var claimClaimedItemResponse = await client.PostAsJsonAsync(location + "/claim", new FoundItemClaimRequestDTO("Second claimer"));
+        var claimClaimedItemResponse = await client.PostAsJsonAsync(location + "/claim", new FoundItemClaimRequestDTO { ClaimedBy = "Second claimer" });
 
         Assert.Equal(HttpStatusCode.Conflict, claimClaimedItemResponse.StatusCode);
         var notFoundRequest = await claimClaimedItemResponse.Content.ReadAsStringAsync();

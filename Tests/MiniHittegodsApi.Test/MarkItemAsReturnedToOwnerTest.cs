@@ -17,7 +17,7 @@ public class MarkItemAsReturnedToOwnerTest(CustomWebApplicationFactory<Program> 
         foundItemResponse.EnsureSuccessStatusCode();
         var location = await GetLocationOfResponse(foundItemResponse);
         var claimer = "Test claimer";
-        var claimedItemResponse = await client.PostAsJsonAsync(location + "/claim", new FoundItemClaimRequestDTO(claimer));
+        var claimedItemResponse = await client.PostAsJsonAsync(location + "/claim", new FoundItemClaimRequestDTO { ClaimedBy = claimer });
         claimedItemResponse.EnsureSuccessStatusCode();
 
         var returnedFoundItemResponse = await client.PostAsync(location + "/return", null);
@@ -34,7 +34,7 @@ public class MarkItemAsReturnedToOwnerTest(CustomWebApplicationFactory<Program> 
     {
         var client = Client;
 
-        var response = await client.PostAsJsonAsync($"/api/items/{Guid.NewGuid()}/return", new FoundItemClaimRequestDTO("Test claimer"));
+        var response = await client.PostAsJsonAsync($"/api/items/{Guid.NewGuid()}/return", new FoundItemClaimRequestDTO { ClaimedBy = "Test claimer" });
 
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         var notFoundRequest = await response.Content.ReadAsStringAsync();

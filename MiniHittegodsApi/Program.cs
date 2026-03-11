@@ -7,6 +7,8 @@ using MiniHittegodsApi.Model.DTO;
 using MiniHittegodsApi.Model;
 using MiniHittegodsApi.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Http.Json;
 
 
 
@@ -18,6 +20,11 @@ builder.Services.AddValidation();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<FoundItemDbContext>(options => options.UseNpgsql(connectionString), ServiceLifetime.Scoped);
+
+builder.Services.ConfigureHttpJsonOptions(options =>
+{
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+});
 
 
 builder.Services.AddSingleton(TimeProvider.System);

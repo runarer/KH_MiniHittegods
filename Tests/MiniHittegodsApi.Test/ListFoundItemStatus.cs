@@ -17,11 +17,11 @@ public class ListFoundItemStatus(CustomWebApplicationFactory<Program> factory) :
         var firstClaimLocation = await GetLocationOfResponse(foundItemsResponse[0]);
         var secondClaimLocation = await GetLocationOfResponse(foundItemsResponse[1]);
         var thirdClaimLocation = await GetLocationOfResponse(foundItemsResponse[2]);
-        var firstClaimedItemResponse = await client.PostAsJsonAsync(firstClaimLocation + "/claim", new FoundItemClaimRequestDTO("First claimer"));
+        var firstClaimedItemResponse = await client.PostAsJsonAsync(firstClaimLocation + "/claim", new FoundItemClaimRequestDTO { ClaimedBy = "First claimer" });
         firstClaimedItemResponse.EnsureSuccessStatusCode();
-        var secondClaimedItemResponse = await client.PostAsJsonAsync(secondClaimLocation + "/claim", new FoundItemClaimRequestDTO("Second claimer"));
+        var secondClaimedItemResponse = await client.PostAsJsonAsync(secondClaimLocation + "/claim", new FoundItemClaimRequestDTO { ClaimedBy = "Second claimer" });
         secondClaimedItemResponse.EnsureSuccessStatusCode();
-        var thirdClaimedItemResponse = await client.PostAsJsonAsync(thirdClaimLocation + "/claim", new FoundItemClaimRequestDTO("Third claimer"));
+        var thirdClaimedItemResponse = await client.PostAsJsonAsync(thirdClaimLocation + "/claim", new FoundItemClaimRequestDTO { ClaimedBy = "Third claimer" });
         thirdClaimedItemResponse.EnsureSuccessStatusCode();
 
         var listOfAllFoundItemsResponse = await client.GetAsync("/api/items?status=Claimed");
