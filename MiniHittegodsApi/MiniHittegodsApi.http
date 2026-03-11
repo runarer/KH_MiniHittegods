@@ -1,6 +1,56 @@
-@MiniHittegodsApi_HostAddress = http://localhost:5179
+@MiniHittegodsApi_HostAddress = http://localhost:8080/api/items
 
-GET {{MiniHittegodsApi_HostAddress}}/weatherforecast/
-Accept: application/json
+POST {{MiniHittegodsApi_HostAddress}}
+Content-Type: application/json
+
+{
+    "title" : "Pose med ballonger",
+    "description" : "En stor pose av plastikk med ballonger av flere farger, bilde av ballongdyr utenpå",
+    "category" : "Other",
+    "foundLocation" : "Fellessalen"
+}
+
+
+### 
+POST {{MiniHittegodsApi_HostAddress}}
+Content-Type: application/json
+
+{
+    "title" : "Nøkkelknipe",
+    "description" : "Nøkkelring med rosa elefant og flaskeåpner",
+    "category" : "Keys",
+    "foundLocation" : "Ved inngangsdøra"
+}
 
 ###
+POST {{MiniHittegodsApi_HostAddress}}
+Content-Type: application/json
+
+{
+    "title" : "Lommebok uten penger",
+    "description" : "Lommebok i steinbitskinn uten penger og kort",
+    "category" : "Wallet",
+    "foundLocation" : "Toalettet"
+}
+
+###
+POST {{MiniHittegodsApi_HostAddress}}
+Content-Type: application/json
+
+{
+    "title" : "Lommebok med 50 kroner",
+    "description" : "Sort lommebok av tøy med en femtilapp og klippekort til Balkan kebabresturant, 3 klipp",
+    "category" : "Wallet",
+    "foundLocation" : "Heisen"
+}
+
+###
+POST {{MiniHittegodsApi_HostAddress}}
+Content-Type: application/json
+
+{
+    "title" : "Husnøkkel",
+    "description" : "",
+    "category" : "Keys",
+    "foundLocation" : "Heisen"
+}
