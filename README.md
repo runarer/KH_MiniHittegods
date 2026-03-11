@@ -4,6 +4,9 @@
 
 Startes med: ´docker compose up --build´ fra MiniHittegodsApi katalogen.
 
+I MiniHittegodsApi ligger det en http fil med noen objekter som kan legges
+til databasen raskt før testing med scalar.
+
 ## Scalar
 
 Programmet bruker OpenApi med Scalar som interface, denne er tilgjengelig
