@@ -16,7 +16,7 @@ public class PostgreSqlRepository : IFoundItemRepository
     public async Task AddFoundItemAsync(FoundItem foundItem)
     {
         _dbContext.FoundItems.Add(foundItem);
-        await _dbContext.SaveChangesAsync();
+        await Save();
     }
 
     public async Task DeleteFoundItemAsync(Guid id)
@@ -31,7 +31,11 @@ public class PostgreSqlRepository : IFoundItemRepository
 
     public async Task<IReadOnlyList<FoundItem>> GetItems(Status? status, Category? category, string? searchQuery)
     {
-        var query = _dbContext.FoundItems.AsQueryable();
+        IQueryable<FoundItem> query = _dbContext.FoundItems;
+
+        Console.WriteLine(status);
+        Console.WriteLine(category);
+        Console.WriteLine(searchQuery);
 
         if (status is not null)
             query = query.Where(item => item.Status == status.Value);
@@ -43,5 +47,10 @@ public class PostgreSqlRepository : IFoundItemRepository
             query = query.Where(item => item.Title.Contains(searchQuery) || item.Description.Contains(searchQuery));
 
         return await query.ToListAsync();
+    }
+
+    public Task Save()
+    {
+        return _dbContext.SaveChangesAsync();
     }
 }

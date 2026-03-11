@@ -13,7 +13,7 @@ public class FoundItemDTO
     public required string FoundLocation { get; init; }
     public required DateTimeOffset FoundAtUtc { get; init; }
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public required Status Status { get; set; } = Status.Available;
+    public required Status Status { get; set; }
     public string? ClaimedBy { get; set; }
     public DateTimeOffset ClaimedAtUtc { get; set; }
     public DateTimeOffset ReturnedAtUtc { get; set; }

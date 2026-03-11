@@ -40,4 +40,9 @@ public class InMemoryRepository : IFoundItemRepository
 
         return item;
     }
+
+    public Task Save()
+    {
+        return Task.CompletedTask;
+    }
 }

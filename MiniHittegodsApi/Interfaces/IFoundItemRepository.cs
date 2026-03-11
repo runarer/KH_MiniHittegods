@@ -11,4 +11,5 @@ public interface IFoundItemRepository
 
     Task<FoundItem?> GetFoundItemAsync(Guid id);
     Task<IReadOnlyList<FoundItem>> GetItems(Status? status, Category? category, string? searchQuery);
+    Task Save();
 }
