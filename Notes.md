@@ -1,5 +1,21 @@
 # Notater til MiniHittegods
 
+## Husk for neste oppgave
+
+Gjør update på items i repository så man ikke trenger en Save funksjon.
+Repository skal håndtere CRUD operasjoner og det å endre Status og legge til
+navn på claimer er Update operasjoner
+
+Bruk klasser med properties isteden for Record. Record og JSON er ikke gode venner.
+
+## Ønsker for fremtidige oppgave/prosjekter
+
+Vil ha docker compose filen i rooten på løsningen.
+
+Kjernen av serveren i eget prosjekt.
+
+Felles versjon av pakker for alle prosjekter i løsningen.
+
 ## Spørsmål
 
 ### List med queries
