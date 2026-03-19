@@ -33,10 +33,6 @@ public class PostgreSqlRepository : IFoundItemRepository
     {
         IQueryable<FoundItem> query = _dbContext.FoundItems;
 
-        Console.WriteLine(status);
-        Console.WriteLine(category);
-        Console.WriteLine(searchQuery);
-
         if (status is not null)
             query = query.Where(item => item.Status == status.Value);
 
